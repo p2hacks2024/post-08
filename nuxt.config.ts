@@ -7,5 +7,14 @@ export default defineNuxtConfig({
     preset: "cloudflare-pages"
   },
 
-  modules: ["nitro-cloudflare-dev"]
+  modules: ["nitro-cloudflare-dev",'@nuxtjs/tailwindcss'],
+  tailwindcss: {
+    cssPath: ['~/assets/css/tailwind.css', { injectPosition: "first" }],
+    configPath: 'tailwind.config',
+    exposeConfig: {
+      level: 2
+    },
+    config: {},
+    viewer: true,
+  }
 })
