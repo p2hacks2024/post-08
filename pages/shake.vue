@@ -18,30 +18,6 @@ export default {
             updateInterval: 100, // 更新間隔（ミリ秒）
         };
     },
-    mounted() {     // devicemotionが使えるかどうか確認
-        if (typeof DeviceMotionEvent.requestPermission === 'function') {
-            // iOS 13+ の場合、ユーザーに許可を求める
-            DeviceMotionEvent.requestPermission()
-                .then(permissionState => {
-                    if (permissionState === 'granted') {
-                        window.addEventListener('devicemotion', this.handleMotion);
-                    } else {
-                        alert("デバイスモーションの許可が得られませんでした。");
-                    }
-                })
-                .catch(console.error);
-        } else {
-            // その他のブラウザの場合
-            if (window.DeviceMotionEvent) {
-                window.addEventListener('devicemotion', this.handleMotion);
-            } else {
-                alert("お使いのデバイスではサポートされていません。");
-            }
-        }
-    },
-    beforeDestroy() {
-        window.removeEventListener('devicemotion', this.handleMotion);
-    },
     methods: {
         requestPermission() {
         if (typeof DeviceMotionEvent.requestPermission === 'function') {
