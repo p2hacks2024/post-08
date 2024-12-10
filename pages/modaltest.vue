@@ -14,35 +14,59 @@
 
             <!-- 枠 -->
             <div class="modal">
-                <canvas ref="canvasElement" :width="500" :height="200" />            </div>
+                <!-- スイッチ -->
+                <div class="switch-container">
+                    <button class="switch-button" @click="toggleSwitch">
+                        {{ isSwitchOn ? "ON" : "OFF" }}
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { ref } from "vue";
-import * as fabric from "fabric";
 export default {
     setup() {
         const isModalVisible = ref(false);
-        const canvasElement = ref<HTMLCanvasElement>()
-        const canvas = computed(
-            () =>
-                new fabric.Canvas(canvasElement.value!, {
-                    preserveObjectStacking: true,
-                })
-        )
-        onMounted(() => {
-            canvas.value.isDrawingMode = true
-        })
+        const isSwitchOn = ref(false);
 
+        const toggleSwitch = () => {
+            isSwitchOn.value = !isSwitchOn.value;
+        };
 
-        return { isModalVisible };
+        return { isModalVisible, isSwitchOn, toggleSwitch };
     },
 };
 </script>
 
 <style scoped>
+/* スイッチボタンのコンテナ */
+.switch-container {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* スイッチボタン */
+.switch-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #4caf50;
+    color: white;
+    border: 2px solid #4caf50;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.switch-button:hover {
+    background-color: white;
+    color: #4caf50;
+    border-color: #4caf50;
+}
 /* はじめるボタン */
 .start-button {
     padding: 10px 20px;
