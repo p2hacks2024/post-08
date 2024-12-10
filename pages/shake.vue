@@ -2,6 +2,7 @@
     <div>
         <h1>Shake Detection</h1>
         <p>Shake Strength: {{ shakeStrength }}</p>
+        <button @click="requestPermission">デバイスモーションの許可を求める</button>
     </div>
 </template>
 
@@ -42,6 +43,27 @@ export default {
         window.removeEventListener('devicemotion', this.handleMotion);
     },
     methods: {
+        requestPermission() {
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+            DeviceMotionEvent.requestPermission()
+                .then(permissionState => {
+                    if (permissionState === 'granted') {
+                        window.addEventListener('devicemotion', this.handleMotion);
+                    } else {
+                        alert("デバイスモーションの許可が得られませんでした。");
+                    }
+                })
+                .catch(error => {
+                    console.error("デバイスモーションの許可リクエスト中にエラーが発生しました:", error);
+                });
+        } else {
+            if (window.DeviceMotionEvent) {
+                window.addEventListener('devicemotion', this.handleMotion);
+            } else {
+                alert("お使いのデバイスではサポートされていません。");
+            }
+        }
+    },
         handleMotion(event) {
             const currentTime = Date.now();     // 現在の時間をミリ秒単位で取得
             if (currentTime - this.lastUpdate < this.updateInterval) {  // lastUpdate の差が updateInterval 未満であれば、処理をスキップ
@@ -67,6 +89,9 @@ export default {
             this.lastZ = z;
         },
     },
+    beforeDestroy() {
+        window.removeEventListener('devicemotion', this.handleMotion);
+    },
 };
 </script>
 
@@ -77,5 +102,11 @@ h1 {
 p {
     text-align: center;
     font-size: 2em;
+}
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 1em;
 }
 </style>
