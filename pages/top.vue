@@ -1,25 +1,59 @@
 <template>
     <div class="bg">
-    <div
-      class="min-h-screen flex flex-col items-center justify-center"
-    >
-      <h1 class="text-4xl font-extrabold text-blue-600">POST-8へようこそ</h1>
-      <p class="mt-4 text-gray-700 text-lg">
-        これはNuxt.jsとTailwind CSSを使った簡単なホームページです。
-      </p>
-      <Footer></Footer>
-    </div>
+      <div class="min-h-screen relative"> 
+       
+        <img
+          src="@/assets/images/boy.png"
+          alt="boy"
+          class="boy-image"
+        />
+        <img
+          src="@/assets/images/bambooLeaves-2.png"
+          alt="bambooLeaves"
+          class="bamboo-image"
+        />
+      </div>
+      <Footer class="footer" ></Footer>
     </div>
   </template>
   
   <style>
-    .bg {
-      background-image: url("@/assets/images/bg-hoshisen.png");
-      background-size: cover; /* 画像をコンテナのサイズに合わせて拡大・縮小 */
-      background-position: center center; /* 画像の位置を中央に設定 */
-      background-repeat: no-repeat; /* 画像が繰り返し表示されないように設定 */
-      height: 100%; 
-    }
+  .bg {
+    background-image: url("@/assets/images/bg-hoshisen.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 100%;
+  }
+  
+  .min-h-screen {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden; /* コンテンツがはみ出ないようにする */
+  }
+  
+  .boy-image {
+    position: absolute;
+    top: 55%; 
+    left: 30%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    max-height: 50vh; 
+  }
+  
+  .bamboo-image {
+    position: absolute;
+    top: 55%; 
+    left: 70%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    max-height: 90vh; 
+  }
+  
+  .footer {
+  z-index: 2; /* 画像よりも上に表示 */
+}
+  
   </style>
   
   <script setup>
