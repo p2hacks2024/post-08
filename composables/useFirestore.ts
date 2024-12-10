@@ -14,7 +14,7 @@ import type { User } from '../types/firestore';
 export const useFirestore = () => {
   const db = getFirestore()
 
-  const getUserData = async (ID: string | null): Promise<User | null> => {
+  const getUserData = async (ID: string | null) => {
     //ユーザーIDを使い、一致するIDのデータを取得する関数
     if (!ID) {
       return null;
@@ -27,7 +27,7 @@ export const useFirestore = () => {
       return doc.data() as User;
     })
 
-    return null;
+    //return null;
   }
 
   return {

@@ -37,5 +37,5 @@ export default defineNuxtConfig({
 
   ssr: true,
 
-  plugins: ['~/plugins/firestore.']
+  plugins: ['~/plugins/firebase.client']
 })
