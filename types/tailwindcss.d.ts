@@ -13,16 +13,4 @@ declare module '@nuxt/schema' {
       viewer?: boolean;
     };
   }
-
-  interface NuxtOptions {
-    tailwindcss?: {
-      cssPath?: string;
-      configPath?: string;
-      exposeConfig?: {
-        level?: number;
-      };
-      config?: Record<string, any>;
-      viewer?: boolean;
-    };
-  }
 }
