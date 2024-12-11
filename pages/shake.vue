@@ -103,6 +103,7 @@ button {
     margin: 20px auto;
     padding: 10px 20px;
     font-size: 1em;
+    z-index: 3;
 }
 
 .bg {
