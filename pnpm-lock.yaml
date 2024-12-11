@@ -11,6 +11,9 @@ importers:
       '@types/fabric':
         specifier: ^5.3.9
         version: 5.3.9
+      canvas-confetti:
+        specifier: ^1.9.3
+        version: 1.9.3
       fabric:
         specifier: ^6.5.3
         version: 6.5.3
@@ -1653,6 +1656,9 @@ packages:
 
   caniuse-lite@1.0.30001687:
     resolution: {integrity: sha512-0S/FDhf4ZiqrTUiQ39dKeUjYRjkv7lOZU1Dgif2rIqrTzX/1wV2hfKu9TOm1IHkdSijfLswxTFzl/cvir+SLSQ==}
+
+  canvas-confetti@1.9.3:
+    resolution: {integrity: sha512-rFfTURMvmVEX1gyXFgn5QMn81bYk70qa0HLzcIOSVEyl57n6o9ItHeBtUSWdvKAPY0xlvBHno4/v3QPrT83q9g==}
 
   canvas@2.11.2:
     resolution: {integrity: sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==}
@@ -5973,6 +5979,8 @@ snapshots:
       lodash.uniq: 4.5.0
 
   caniuse-lite@1.0.30001687: {}
+
+  canvas-confetti@1.9.3: {}
 
   canvas@2.11.2:
     dependencies:
