@@ -13,7 +13,7 @@
           class="boy-image"
         />
         <img
-          src="@/assets/images/bambooLeaves-2.png"
+          src="@/assets/images/bambooLeaves-1.png"
           alt="bambooLeaves"
           class="bamboo-image"
         />
