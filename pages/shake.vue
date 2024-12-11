@@ -1,22 +1,22 @@
 <template>
-     <div class="bg">
-      <div class="min-h-screen relative"> 
-        <div>
-            <Confetti></Confetti>
-        <h1>Shake Detection</h1>
-        <p>Shake Strength: {{ shakeStrength }}</p>
-        <button @click="requestPermission">デバイスモーションの許可を求める</button>
-    </div>
-        <img
-          src="@/assets/images/boy.png"
-          alt="boy"
-          class="boy-image"
-        />
-        <img
-          src="@/assets/images/bambooLeaves-1.png"
-          alt="bambooLeaves"
-          class="bamboo-image"
-        />
+    <div class="bg">
+        <div class="min-h-screen relative"> 
+            <div class="relative z-[3]">
+                <Confetti></Confetti>
+                <h1>Shake Detection</h1>
+                <p>Shake Strength: {{ shakeStrength }}</p>
+                <button @click="requestPermission">デバイスモーションの許可を求める</button>
+            </div>
+            <img
+            src="@/assets/images/boy.png"
+            alt="boy"
+            class="boy-image"
+            />
+            <img
+            src="@/assets/images/bambooLeaves-1.png"
+            alt="bambooLeaves"
+            class="bamboo-image"
+            />
       </div>
     
       <Footer class="footer" ></Footer>
