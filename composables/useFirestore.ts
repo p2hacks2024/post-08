@@ -22,12 +22,8 @@ export const useFirestore = () => {
 
     const q = query(collection(db, 'users'), where('userID', '==', ID));
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      return doc.data() as User;
-    })
-
-    //return null;
+    //console.log(querySnapshot.docs[0].data());
+    return querySnapshot.docs[0].data() as User;
   }
 
   return {

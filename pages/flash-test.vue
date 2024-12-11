@@ -12,19 +12,29 @@
     >
       ボタンをクリック
     </button>
+    <div v-if="user_status" class="flex flex-row mt-4 text-gray-700 text-lg">
+      <p class="mr-2">現在のステータスは:</p>
+      <p>{{ user_status }}</p>
+      <p class="ml-2">です</p>
+    </div>
+    <p v-else class="mt-4 text-gray-700 text-lg">ステータスが読み取れませんでした。</p>
   </div>
 </template>
 
 <script setup lang='ts'>
-//import { ref } from 'vue';
+import { ref } from 'vue';
 import { useFirestore } from '~/composables/useFirestore';
 
+const user_status = ref<string | null>(null);
+
 async function handleButtonClick() {
-  const data = await useFirestore().getUserData('testuser001');
-  if (data) {
-    console.log(data);
-  } else {
-    console.log('error');
+  try {
+    const data = await useFirestore().getUserData('testuser001');
+    user_status.value = data?.status;
+    console.log('status: ', user_status.value)
+    return user_status;
+  } catch(e){
+    console.error(e);
   }
 }
 </script>
