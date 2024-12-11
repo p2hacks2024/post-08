@@ -43,12 +43,13 @@ export default {
                 .then(permissionState => {
                     if (permissionState === 'granted') {
                         window.addEventListener('devicemotion', this.handleMotion);
+                        alert('success')
                     } else {
                         alert("デバイスモーションの許可が得られませんでした。");
                     }
                 })
                 .catch(error => {
-                    console.error("デバイスモーションの許可リクエスト中にエラーが発生しました:", error);
+                    alert("デバイスモーションの許可リクエスト中にエラーが発生しました:", error);
                 });
         } else {
             if (window.DeviceMotionEvent) {
