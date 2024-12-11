@@ -4,7 +4,7 @@
     <div class="p-5 grid gap-10 grid-cols-2 items-center">
     
       <!-- 1つ目のボタン -->
-      <router-link to="/test" class="p-3 bg-white rounded-[35px] border-4 border-[#2898D7] overflow-hidden hover:bg-gray-200" style="width: 40vw; height: 20vh;">
+      <router-link to="/" class="p-3 bg-white rounded-[35px] border-4 border-[#2898D7] overflow-hidden hover:bg-gray-200" style="width: 40vw; height: 20vh;">
       <div class="flex justify-center items-start">
           <p class="text-gray-500 text-md font-bold">願い事を見返す</p>
         </div>
