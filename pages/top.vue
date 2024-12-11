@@ -13,6 +13,7 @@
           class="bamboo-image"
         />
       </div>
+      <Confetti></Confetti>
       <Footer class="footer" ></Footer>
     </div>
   </template>
@@ -57,6 +58,8 @@
   </style>
   
   <script setup>
+import Confetti from '@/components/confetti.vue';
+
   const handleButtonClick = () => {
     alert("POST-8にようこそ");
   };
