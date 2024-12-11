@@ -35,6 +35,7 @@ async function handleButtonClick() {
     return user_status;
   } catch(e){
     console.error(e);
+    alert('ユーザー情報の取得に失敗しました。');
   }
 }
 </script>
