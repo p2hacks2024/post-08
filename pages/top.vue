@@ -63,5 +63,10 @@ import Confetti from '@/components/confetti.vue';
   const handleButtonClick = () => {
     alert("POST-8にようこそ");
   };
+
+  defineOgImageComponent('XPost', {
+  title: 'Wish Upon A Star',
+  borderColor: 'blue-500',
+})
   </script>
   

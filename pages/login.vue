@@ -36,7 +36,7 @@ export default {
         if (user) {
           console.log(user);
           const details = getAdditionalUserInfo(result);
-          console.log(details);
+          console.log(details.profile?.id);
         } else {
           alert('error');
         }
