@@ -15,7 +15,7 @@
 
       <!-- 願いごとへ飛ぶのボタン -->
       <div class="flex justify-center items-center absolute top-1/3 right-0 transform -translate-x-1/2 -translate-y-1/2">
-        <router-link to="/shake_confetti" class="p-4 bg-white rounded-full  overflow-hidden hover:bg-gray-200" style="width: 30vw; height: 20vh;">
+        <router-link to="/shake_confetti" class="p-4 bg-white rounded-full shadow-md overflow-hidden hover:bg-gray-200" style="width: 30vw; height: 20vh;">
           <div class="flex justify-center items-start p-2">
             <p class="text-gray-500 text-xs font-light">みんなの願いごとを見る
             </p>

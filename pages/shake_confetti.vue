@@ -197,5 +197,6 @@ import Confetti from '@/components/confetti.vue';
 //   const handleButtonClick = () => {
 //     alert("POST-8にようこそ");
 //   };
+ 
 </script>
   
