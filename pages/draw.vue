@@ -36,17 +36,7 @@ export default {
             }
         };
 
-        const initializeCanvas = async () => {
-            await nextTick();//DOMの更新を待つ
-            if (canvas.value) {
-                canvas.value.dispose();//既存のCanvasを破棄
-            }
-            canvas.value = new fabric.Canvas(canvasEl.value, {
-                isDrawingMode: state.isDrawingMode,
-            });
-            canvas.value.freeDrawingBrush = new fabric.PencilBrush(canvas.value);
-        };
-
+        /*
         //モーダルが開かれたら実行
         watch(isModalVisible, async (newVal) => {
             if (newVal) {
@@ -60,6 +50,7 @@ export default {
                 }
             }
         });
+        */
 
         onMounted(() => {
             canvas.value = new fabric.Canvas(canvasEl.value, {
