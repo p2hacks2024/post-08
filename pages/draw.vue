@@ -1,33 +1,19 @@
 <template>
     <div>
-        <!-- 開始ボタン -->
-        <div class="mt-4 ml-4">
-            <button class="start-button" @click="isModalVisible = true">滲みだす混濁の紋章...</button>
-        </div>
-
-        <!-- モーダル -->
-        <div v-if="isModalVisible" class="modal-wrapper">
-            <!-- モーダル本体 -->
-            <div class="modal">
-                <canvas ref="canvasEl" width="350" height="400" style="border: 1px solid #ccc;" />
-            </div>
-        </div>
-
-        <!-- モーダル外のボタン -->
-        <div v-if="isModalVisible" class="modal-buttons">
-            <button class="control-button" @click="toggleDrawingMode">
-                {{ state.isDrawingMode ? "Cancel drawing mode" : "Enter drawing mode" }}
-            </button>
-            <button class="control-button" @click="clearCanvas">Clear Canvas</button>
-            <button class="control-button" @click="isModalVisible = false">これが最後の月牙天衝だ</button>
-        </div>
+        <canvas ref="canvasEl" width="600" height="500" style="border: 1px solid #ccc;" />
+        <button class="control-button" @click="toggleDrawingMode">
+            {{ state.isDrawingMode ? "Cancel drawing mode" : "Enter drawing mode" }}
+        </button>
+        <button class="control-button" @click="clearCanvas">Clear Canvas</button>
+        <button class="control-button" @click="saveCanvasAsImage">画像保存</button>
     </div>
 </template>
 
 
 <script>
-import { ref, reactive } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import * as fabric from "fabric";
+import { POST } from "/composables/api/uploadToR2";
 
 export default {
     name: "DrawingCanvas",
@@ -75,11 +61,84 @@ export default {
             }
         });
 
+        onMounted(() => {
+            canvas.value = new fabric.Canvas(canvasEl.value, {
+                isDrawingMode: state.isDrawingMode,
+            });
+            canvas.value.freeDrawingBrush = new fabric.PencilBrush(canvas.value);
+        });
+
         //キャンバスのクリア
         const clearCanvas = () => {
             if (canvas.value) {
                 canvas.value.clear();
             }
+        };
+
+        //ランダムなファイル名を生成
+        const generateRandomFileName = (length = 8) => {
+            const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            let result = "";
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        };
+
+        //ダウンロード処理
+        const saveCanvasAsImage = () => {
+            if (canvas.value) {
+                const dataURL = canvas.value.toDataURL({
+                    format: "png",
+                    quality: 1.0,
+                });
+
+                // キャンバスをクリアし、描画モードをリセット
+                clearCanvas();
+                state.isDrawingMode = false;
+
+                const link = document.createElement("a");
+                link.href = dataURL;
+                link.download = "canvas_image.png";
+                link.click();
+            }
+        };
+
+        //アップロード処理
+        const uploadCanvasToR2 = async () => {
+            if (canvas.value) {
+                const dataURL = canvas.value.toDataURL({
+                    format: "png",
+                    quality: 1.0,
+                });
+
+                const blob = dataURLToBlob(dataURL);
+                const file = new File([blob], "canvas_image_" + generateRandomFileName() + ".png", { type: "image/png" });
+
+                try {
+                    const response = await POST(file);
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log("アップロード成功:", data);
+                    } else {
+                        console.error("アップロード失敗:", await response.text());
+                    }
+                } catch (error) {
+                    console.error("アップロードエラー:", error);
+                }
+            }
+        };
+
+        //dataURLをBlobに変換
+        const dataURLToBlob = (dataURL) => {
+            const [header, base64] = dataURL.split(",");
+            const mime = header.match(/:(.*?);/)[1];
+            const binary = atob(base64);
+            const array = [];
+            for (let i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i));
+            }
+            return new Blob([new Uint8Array(array)], { type: mime });
         };
 
         return {
@@ -88,6 +147,8 @@ export default {
             toggleDrawingMode,
             clearCanvas,
             isModalVisible,
+            saveCanvasAsImage,
+            onMounted,
         };
     },
 };
