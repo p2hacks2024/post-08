@@ -1,33 +1,44 @@
 <template>
+    <!--ここにいれる-->
+
     <div>
         <!-- 開始ボタン -->
-        <div class="mt-4 ml-4">
-            <button class="start-button" @click="isModalVisible = true">滲みだす混濁の紋章...</button>
+        <div className="mt-4 ml-4">
+            <button class="start-button" @click="isModalVisible = true">撃っていいのは撃たれる覚悟があるやつだけだ</button>
         </div>
 
         <!-- モーダル -->
         <div v-if="isModalVisible" class="modal-wrapper">
-            <!-- モーダル本体 -->
-            <div class="modal">
-                <canvas ref="canvasEl" width="350" height="400" style="border: 1px solid #ccc;" />
-            </div>
-        </div>
 
-        <!-- モーダル外のボタン -->
-        <div v-if="isModalVisible" class="modal-buttons">
-            <button class="control-button" @click="toggleDrawingMode">
-                {{ state.isDrawingMode ? "Cancel drawing mode" : "Enter drawing mode" }}
-            </button>
-            <button class="control-button" @click="clearCanvas">Clear Canvas</button>
-            <button class="control-button" @click="isModalVisible = false">これが最後の月牙天衝だ</button>
-            <button class="control-button" @click="saveCanvasAsImage">画像保存</button>
+            <!-- 閉じるボタン -->
+            <div className="close-container">
+                <button class="close-button" @click="isModalVisible = false">間違っていたのは俺じゃない、世界の方だ</button>
+            </div>
+
+            <button class="save-button" @click="saveCanvasAsImage">画像保存</button>
+
+            <!-- 枠 -->
+            <div class="modal">
+                <!-- スイッチ -->
+                <div class="switch-container">
+                    <button class="switch-button" @click="toggleSwitch">
+                        {{ isSwitchOn ? "ON" : "OFF" }}
+                    </button>
+                </div>
+                <!--描画-->
+                <div>
+                    <button class="start-button" @click="toggleDrawingMode">
+                        {{ state.isDrawingMode ? "Cancel drawing mode" : "Enter drawing mode" }} </button>
+                </div>
+                <canvas ref="canvasEl" width="350" height="400" style="border: 1px solid #ccc;" />
+                <button class="start-button" @click="clearCanvas">Clear Canvas</button>
+            </div>
         </div>
     </div>
 </template>
 
-
 <script>
-import { ref, reactive } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import * as fabric from "fabric";
 
 export default {
@@ -42,19 +53,65 @@ export default {
             shadowBlur: 0,
         });
         const isModalVisible = ref(false);
+        const isSwitchOn = ref(false);
 
-        //書くのかい、書かないのかい、どっちなんだい
+        const toggleSwitch = () => {
+            isSwitchOn.value = !isSwitchOn.value;
+        };
+
         const toggleDrawingMode = () => {
             if (canvas.value) {
                 state.isDrawingMode = !state.isDrawingMode;
                 canvas.value.isDrawingMode = state.isDrawingMode;
             }
+            //console.log(state.isDrawingMode)
+            //console.log(canvas.value.isDrawingMode)
+            //console.log(canvas.value)
         };
 
+        /*
+        watch(isModalVisible, (newVal) => {
+            if (newVal) {
+                console.log("check")
+                canvas.value = new fabric.Canvas(canvasEl.value, {
+                isDrawingMode: state.isDrawingMode,
+            });
+            canvas.value.freeDrawingBrush = new fabric.PencilBrush(canvas.value);
+            }
+        });
+
+        watch(isModalVisible, (newVal) => {
+            if (newVal) {
+                // モーダルが開くとき、前回のCanvasを破棄して再初期化
+                if (canvas.value) {
+                    canvas.value.dispose(); // 既存のCanvasを破棄
+                }
+            }
+        });
+        */
+
+        /*
+        // isModalVisible が true のときに処理を実行
+        watch(isModalVisible, (newVal) => {
+            canvas.value = new fabric.Canvas(canvasEl.value, {
+                isDrawingMode: state.isDrawingMode,
+            });
+            canvas.value.freeDrawingBrush = new fabric.PencilBrush(canvas.value);
+        },{immidiate: true});
+        */
+        /*
+        // isSwitchOn が true のとき Drawing モードを有効化
+        watch(isSwitchOn, (newVal) => {
+            if (newVal && canvas.value) {
+                canvas.value.isDrawingMode = state.isDrawingMode;
+            }
+        });
+        */
+
         const initializeCanvas = async () => {
-            await nextTick();//DOMの更新を待つ
+            await nextTick(); // DOMが更新されるのを待つ
             if (canvas.value) {
-                canvas.value.dispose();//既存のCanvasを破棄
+                canvas.value.dispose(); // 既存のCanvasを破棄
             }
             canvas.value = new fabric.Canvas(canvasEl.value, {
                 isDrawingMode: state.isDrawingMode,
@@ -62,48 +119,54 @@ export default {
             canvas.value.freeDrawingBrush = new fabric.PencilBrush(canvas.value);
         };
 
-        //モーダルが開かれたら実行
         watch(isModalVisible, async (newVal) => {
             if (newVal) {
-                await initializeCanvas();//モーダルが開かれたらCanvasを初期化
+                await initializeCanvas(); // モーダルが開かれたらCanvasを初期化
             } else {
-                state.isDrawingMode = false;//描画モードクリア
-                //モーダルを閉じたら、Canvasを破棄する
+                // モーダルが閉じられたとき、Canvasを破棄する（必要に応じて）
                 if (canvas.value) {
                     canvas.value.dispose();
-                    canvas.value = null;//参照をクリア
+                    canvas.value = null; // 参照をクリア
                 }
             }
         });
 
-        //キャンバスのクリア
         const clearCanvas = () => {
             if (canvas.value) {
                 canvas.value.clear();
             }
         };
-
-        //画像ダウンロード
+        
         const saveCanvasAsImage = () => {
-            if (canvas.value) {
-                const dataURL = canvas.value.toDataURL({
-                    format: 'png',
-                    quality: 1.0
-                });
-                const link = document.createElement('a');
-                link.href = dataURL;
-                link.download = 'canvas-image.png';
-                link.click();
-            }
-        };
+    if (canvas.value) {
+        const dataURL = canvas.value.toDataURL({
+            format: 'png',
+            quality: 1.0
+        });
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'canvas-image.png';
+        link.click();
+    }
+};
+
+
+        onMounted(() => {
+            canvas.value = new fabric.Canvas(canvasEl.value, {
+                isDrawingMode: state.isDrawingMode,
+            });
+            canvas.value.freeDrawingBrush = new fabric.PencilBrush(canvas.value);
+        });
 
         return {
             canvasEl,
             state,
             toggleDrawingMode,
             clearCanvas,
+            saveCanvasAsImage, 
             isModalVisible,
-            saveCanvasAsImage,
+            isSwitchOn,
+            toggleSwitch,
         };
     },
 };
@@ -113,31 +176,6 @@ export default {
 canvas {
     display: block;
     margin: 20px auto;
-}
-
-/* ボタン群をモーダルの下に配置 */
-.modal-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    /* 各ボタンの間隔 */
-    margin-top: 10px;
-    /* モーダルとのスペース */
-}
-
-/*ボタンの共通レイアウト*/
-.control-button {
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.control-button:hover {
-    background-color: #45a049;
 }
 
 /* はじめるボタン */
