@@ -26,6 +26,7 @@
     "@nuxtjs/tailwindcss": "^6.12.2",
     "h3": "^1.13.0",
     "nitro-cloudflare-dev": "^0.2.1",
+    "vite": "^6.0.3",
     "wrangler": "^3.93.0"
   }
 }
