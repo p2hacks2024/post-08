@@ -25,7 +25,7 @@
 import { ref } from 'vue';
 import { useFirestore } from '~/composables/useFirestore';
 
-const user_status = ref<string | null>(null);
+const user_status = ref<string | undefined>(undefined);
 
 async function handleButtonClick() {
   try {
