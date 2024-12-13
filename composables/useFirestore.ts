@@ -92,6 +92,23 @@ export const useFirestore = () => {
     }
   };
 
+  /** ランダムなImageIDを取得する  */
+  const getRandomImageId = async () => {
+    const q = query(collection(db, "users"), where("ImageID", "!=", "")); // コレクション全体を取得するクエリを作成
+    const querySnapshot = await getDocs(q); //クエリの実行
+    const docs = querySnapshot.docs; //ドキュメントリストの取得
+
+    if (docs.length === 0) {
+      return null; // ドキュメントが存在しない場合（これいるかわからん）
+    }
+
+    const randomIndex = Math.floor(Math.random() * docs.length); //ランダムで出す
+    const randomDoc = docs[randomIndex]; //それを取得
+    const data = randomDoc.data(); //データの抽出
+
+    return data.imageID || null; // imageID が存在しない場合は null を返す
+  };
+
   return {
     getUserData,
     getUserDoc,
@@ -99,5 +116,6 @@ export const useFirestore = () => {
     setImageId,
     createUser,
     loginUser,
+    getRandomImageId,
   };
 };
