@@ -1,13 +1,30 @@
 <template>
-    <div>
-        <canvas ref="canvasEl" width="600" height="500" style="border: 1px solid #ccc;" />
-        <button class="control-button" @click="toggleDrawingMode">
-            {{ state.isDrawingMode ? "Cancel drawing mode" : "Enter drawing mode" }}
-        </button>
-        <button class="control-button" @click="clearCanvas">Clear Canvas</button>
-        <button class="control-button" @click="saveCanvasAsImage">画像保存</button>
+    <div class="background-layer"></div>
+    <div class="content-layer">
+        <!-- 上部のボタン -->
+        <div class="controls-top">
+            <button class="control-button-top" @click="saveCanvasAsImage">画像を保存</button>
+            <button class="control-button-top" @click="uploadCanvasToR2">Upload</button>
+        </div>
+        <!-- メインコンテンツ -->
+        <div class="main-content">
+            <!-- キャンバス -->
+            <div class="canvas-wrapper">
+                <canvas ref="canvasEl" class="canvas" width="600" height="500" />
+            </div>
+            <!-- サイドのボタン -->
+            <div class="controls-side">
+                <button class="control-button-side" @click="toggleDrawingMode">
+                    {{ state.isDrawingMode ? "描画モード解除あちゃああ" : "描画モード開始" }}
+                </button>
+                <button class="control-button-side" @click="clearCanvas">キャンバスをクリア</button>
+            </div>
+        </div>
     </div>
 </template>
+
+
+
 
 
 <script>
@@ -35,31 +52,6 @@ export default {
                 canvas.value.isDrawingMode = state.isDrawingMode;
             }
         };
-
-        const initializeCanvas = async () => {
-            await nextTick();//DOMの更新を待つ
-            if (canvas.value) {
-                canvas.value.dispose();//既存のCanvasを破棄
-            }
-            canvas.value = new fabric.Canvas(canvasEl.value, {
-                isDrawingMode: state.isDrawingMode,
-            });
-            canvas.value.freeDrawingBrush = new fabric.PencilBrush(canvas.value);
-        };
-
-        //モーダルが開かれたら実行
-        watch(isModalVisible, async (newVal) => {
-            if (newVal) {
-                await initializeCanvas();//モーダルが開かれたらCanvasを初期化
-            } else {
-                state.isDrawingMode = false;//描画モードクリア
-                //モーダルを閉じたら、Canvasを破棄する
-                if (canvas.value) {
-                    canvas.value.dispose();
-                    canvas.value = null;//参照をクリア
-                }
-            }
-        });
 
         onMounted(() => {
             canvas.value = new fabric.Canvas(canvasEl.value, {
@@ -93,9 +85,9 @@ export default {
                     quality: 1.0,
                 });
 
-                // キャンバスをクリアし、描画モードをリセット
-                clearCanvas();
-                state.isDrawingMode = false;
+                // キャンバスをクリア、描画モードをリセット
+                //clearCanvas();
+                //state.isDrawingMode = false;
 
                 const link = document.createElement("a");
                 link.href = dataURL;
@@ -149,30 +141,76 @@ export default {
             isModalVisible,
             saveCanvasAsImage,
             onMounted,
+            uploadCanvasToR2,
         };
     },
 };
 </script>
 
 <style scoped>
-canvas {
-    display: block;
-    margin: 20px auto;
+/* リセット: 背景とフッター間のマージン解消 */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
-/* ボタン群をモーダルの下に配置 */
-.modal-buttons {
+/* 背景レイヤー */
+.background-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: url("@/assets/images/bg-hoshisen.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+/* コンテンツレイヤー */
+.content-layer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 24px;
+}
+
+/* キャンバスとサイドボタンの配置 */
+.main-content {
+    display: flex; /* 横並びに配置 */
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* キャンバスとボタンの間隔 */
+    margin: 24px 0; /* 上下の余白 */
+    margin-left: 180px; /* 右にずらす */
+}
+
+/* キャンバスのスタイル */
+.canvas-wrapper {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    /* 各ボタンの間隔 */
-    margin-top: 10px;
-    /* モーダルとのスペース */
+    align-items: center;
 }
 
-/*ボタンの共通レイアウト*/
-.control-button {
-    padding: 10px 20px;
+.canvas {
+    border: 2px solid blue;
+    background-color: white;
+}
+
+/* 上部のボタン */
+.controls-top {
+    display: flex;
+    gap: 10px;
+}
+
+/* 上部ボタンのスタイル */
+.control-button-top {
+    padding: 8px 16px;
+    font-size: 14px;
     background-color: #4caf50;
     color: white;
     border: none;
@@ -181,116 +219,31 @@ canvas {
     transition: background-color 0.3s;
 }
 
-.control-button:hover {
+.control-button-top:hover {
     background-color: #45a049;
 }
 
-/* はじめるボタン */
-.start-button {
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: white;
-    border: 2px solid #4caf50;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-/* はじめるボタンのホバー */
-.start-button:hover {
-    background-color: white;
-    color: #4caf50;
-    border-color: #4caf50;
-}
-
-/* スイッチボタンのコンテナ */
-.switch-container {
-    margin: 20px 0;
+/* サイドボタンのスタイル */
+.controls-side {
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* ボタンを縦に並べる */
+    gap: 10px;
 }
 
-/* スイッチボタン */
-.switch-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #4caf50;
+.control-button-side {
+    width: 150px; /* 固定幅 */
+    height: 40px; /* 固定高さ */
+    font-size: 14px;
+    background-color: #2196f3;
     color: white;
-    border: 2px solid #4caf50;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-.switch-button:hover {
-    background-color: white;
-    color: #4caf50;
-    border-color: #4caf50;
-}
-
-/* はじめるボタン */
-.start-button {
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: white;
-    border: 2px solid #4caf50;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-/* はじめるボタンのホバー */
-.start-button:hover {
-    background-color: white;
-    color: #4caf50;
-    border-color: #4caf50;
-}
-
-/* モーダル */
-.modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 350px;
-    height: 600px;
-    padding: 20px;
-    background-color: white;
-    border: 2px solid #010101;
-    box-shadow: 0 2px 10px rgba(164, 57, 57, 0.2);
-    border-radius: 10px;
     text-align: center;
+    transition: background-color 0.3s;
 }
 
-/*閉じるボタンのコンテナ*/
-.close-container {
-    display: flex;
-    /* Flexbox を有効に */
-    justify-content: center;
-    /* 水平方向で中央揃え */
-    align-items: center;
-    /* 垂直方向の中央揃え（必要に応じて） */
-    margin-bottom: 10px;
-    /* モーダルとの距離を調整 */
-}
-
-/* 閉じるボタン */
-.close-button {
-    /*transform: translateX(700%);*/
-    padding: 5px 10px;
-    background-color: #f44336;
-    color: white;
-    border: 2px solid #f44336;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-/* 閉じるボタンのホバー */
-.close-button:hover {
-    background-color: white;
-    color: #f44336;
-    border-color: #f44336;
+.control-button-side:hover {
+    background-color: #1976d2;
 }
 </style>
