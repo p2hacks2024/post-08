@@ -8,7 +8,7 @@
     </p>
     <button
       class="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
-      @click="handleButtonClick"
+      @click="changeStatus"
     >
       ボタンをクリック
     </button>
@@ -27,15 +27,30 @@ import { useFirestore } from '~/composables/useFirestore';
 
 const user_status = ref<string | undefined>(undefined);
 
-async function handleButtonClick() {
-  try {
+async function getUserData() {
+    try {
     const data = await useFirestore().getUserData('testuser001');
     user_status.value = data?.status;
     console.log('status: ', user_status.value)
     return user_status;
-  } catch(e){
+    } catch(e){
     console.error(e);
     alert('ユーザー情報の取得に失敗しました。');
+    }
+}
+
+async function changeStatus() {
+  try {
+    await useFirestore().setStatusData('testuser001');
+    console.log('Status is changed.');
+  } catch(e) {
+    console.error(e);
+    alert('ステータスの変更に失敗しました。')
   }
 }
+
+onMounted(async () => {
+  await getUserData();
+})
+
 </script>
