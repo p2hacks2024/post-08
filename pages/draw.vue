@@ -36,7 +36,6 @@ export default {
             }
         };
 
-        /*
         const initializeCanvas = async () => {
             await nextTick();//DOMの更新を待つ
             if (canvas.value) {
@@ -47,9 +46,7 @@ export default {
             });
             canvas.value.freeDrawingBrush = new fabric.PencilBrush(canvas.value);
         };
-        */
 
-        /*
         //モーダルが開かれたら実行
         watch(isModalVisible, async (newVal) => {
             if (newVal) {
@@ -63,7 +60,6 @@ export default {
                 }
             }
         });
-        */
 
         onMounted(() => {
             canvas.value = new fabric.Canvas(canvasEl.value, {
@@ -89,22 +85,33 @@ export default {
             return result;
         };
 
-        //画像ダウンロード,R2アップロード
-        const saveCanvasAsImage = async () => {
+        //ダウンロード処理
+        const saveCanvasAsImage = () => {
             if (canvas.value) {
-                //Canvasから画像データを取得
                 const dataURL = canvas.value.toDataURL({
                     format: "png",
                     quality: 1.0,
                 });
 
-                //ダウンロード処理
+                // キャンバスをクリアし、描画モードをリセット
+                clearCanvas();
+                state.isDrawingMode = false;
+
                 const link = document.createElement("a");
                 link.href = dataURL;
                 link.download = "canvas_image.png";
                 link.click();
+            }
+        };
 
-                //R2にアップロード
+        //アップロード処理
+        const uploadCanvasToR2 = async () => {
+            if (canvas.value) {
+                const dataURL = canvas.value.toDataURL({
+                    format: "png",
+                    quality: 1.0,
+                });
+
                 const blob = dataURLToBlob(dataURL);
                 const file = new File([blob], "canvas_image_" + generateRandomFileName() + ".png", { type: "image/png" });
 
