@@ -5,7 +5,7 @@
                 <!-- <Confetti></Confetti>
                 <h1>Shake Detection</h1>
                 <p>Shake Strength: {{ shakeStrength }}</p> -->
-                <button @click="requestPermission">デバイスモーションの許可を求める</button>
+                <button class="bg-yellow-400 rounded-[35px] hover:bg-yellow-500"  @click="requestPermission"><div class="text-white">デバイスモーションの許可</div></button>
             </div>
             <img
             src="@/assets/images/boy.png"
@@ -18,7 +18,7 @@
             class="bamboo-image"
             />
       </div>
-    
+      <returnTopButton></returnTopButton>
       <Footer class="footer" ></Footer>
     </div>
    
@@ -186,10 +186,13 @@ button {
   .footer {
   z-index: 2; /* 画像よりも上に表示 */
 }
+
+
 </style>
 
 <script setup>
 import Confetti from '@/components/confetti.vue';
+
 
 //   const handleButtonClick = () => {
 //     alert("POST-8にようこそ");
