@@ -66,7 +66,7 @@ async function getUserData() {
     user_status.value = data?.status;
     imageID.value = data?.imageID
     console.log(imageID.value)
-    console.log('status: ', user_status.value)
+    //console.log('status: ', user_status.value)
     return user_status;
   } catch(e){
     console.error(e);
@@ -76,7 +76,7 @@ async function getUserData() {
 
 async function getUserID() {
   userID.value = localStorage.getItem('uuid')
-  console.log(userID)
+  console.log(userID.value)
 }
 
 onMounted(async () => {
