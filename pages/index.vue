@@ -30,10 +30,21 @@ import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
 import { useFirestore } from "~/composables/useFirestore";
 import { ref } from "vue";
 
+const routes = [
+  {
+    path: '/',
+    name: 'top', // これがTOPページのルート名
+    component: () => import('@/pages/top.vue'), // ルートに対応するコンポーネント
+  },
+  // その他のルート
+];
+
 let login_status = ref<boolean>(false);
 
 async function signin() {
   const provider = new TwitterAuthProvider();
+
+const router = useRouter(); // routerインスタンスを取得
   const auth = getAuth();
 
     signInWithPopup(auth, provider)
@@ -44,6 +55,7 @@ async function signin() {
           localStorage.setItem('uuid', user?.uid)
           login_status.value = true;
           alert('ログインに成功しました。')
+          router.push({ name: 'top' }); // TOPページにリダイレクト
         } else {
           alert('ログインに失敗しました。');
         }
