@@ -47,7 +47,6 @@ const share = () => {
   const shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
 
   window.open(shareUrl, '_blank');
-  navigateTo(`/top`)
 };
 
 </script>
