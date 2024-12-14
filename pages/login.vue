@@ -23,7 +23,7 @@
 
 <script>
 // import firebaseApp from '@/src/main.js'
-import { getAuth, signInWithPopup, TwitterAuthProvider, getAdditionalUserInfo } from "firebase/auth";
+import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
 
 export default {
   methods: {
@@ -34,11 +34,10 @@ export default {
       .then((result) => {
         const user = result.user;
         if (user) {
-          console.log(user);
-          const details = getAdditionalUserInfo(result);
-          console.log(details.profile?.id);
+          console.log(user?.uid);
+          localStorage.setItem('uid', user?.uid)
         } else {
-          alert('error');
+          alert('ログインに失敗しました。');
         }
       })
       .catch((error) => {
