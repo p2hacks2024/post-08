@@ -1,11 +1,11 @@
 <template>
    <div class="bg">
-    <div class="min-h-screen relative"> 
+    <div class="min-h-screen relative">
     <div class="content-layer">
         <!-- 上部のボタン -->
         <div class="controls-top">
-            <button class="control-button-top" @click="saveCanvasAsImage">画像を保存</button>
-            <button class="control-button-top" @click="uploadCanvasToR2">Upload</button>
+            <button class="control-button-top" @click="saveCanvasAsImage">画像をダウンロード</button>
+            <button class="control-button-top" @click="uploadCanvasToR2">画像をアップロード</button>
         </div>
         <!-- メインコンテンツ -->
         <div class="main-content">
@@ -14,25 +14,22 @@
                 <canvas ref="canvasEl" class="canvas"/>
                 <div class="controls-side">
                 <button class="control-button-side" @click="toggleDrawingMode">
-                    {{ state.isDrawingMode ? "描画モード解除" : "描画モード開始" }}
+                    {{ state.isDrawingMode ? "書くのをやめる" : "書き始める" }}
                 </button>
-                <button class="control-button-side" @click="clearCanvas">キャンバスをクリア</button>
+                <button class="control-button-side" @click="clearCanvas">全て消す</button>
                 </div>
-            </div>         
+            </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-
-
-
-
 <script>
 import { onMounted, ref, reactive } from "vue";
 import * as fabric from "fabric";
 import { POST } from "/composables/api/uploadToR2";
+import { useFirestore } from "~/composables/useFirestore";
 
 export default {
     name: "DrawingCanvas",
@@ -107,18 +104,26 @@ export default {
                 });
 
                 const blob = dataURLToBlob(dataURL);
-                const file = new File([blob], "canvas_image_" + generateRandomFileName() + ".png", { type: "image/png" });
+                const randID = generateRandomFileName();
+                const file = new File([blob], "canvas_image_" + randID + ".png", { type: "image/png" });
+
+                const userID = localStorage.getItem('uuid');
 
                 try {
                     const response = await POST(file);
                     if (response.ok) {
                         const data = await response.json();
+                        useFirestore().loginUser(userID);
+                        useFirestore().setImageId(userID, randID);
                         console.log("アップロード成功:", data);
+                        alert('アップロードに成功しました。')
                     } else {
                         console.error("アップロード失敗:", await response.text());
+                        alert('アップロードに失敗しました。')
                     }
                 } catch (error) {
                     console.error("アップロードエラー:", error);
+                    alert('アップロードすることができませんでした。')
                 }
             }
         };
@@ -170,30 +175,31 @@ body {
 
 /* コンテンツレイヤー */
 .content-layer {
-
     position: relative;
     justify-content: center;  
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10px;
+    max-width: 100vw;
+    height: auto;
+    max-height: 70vh
 }
 
 .canvas-wrapper {
     display: flex;
     justify-content: center; /* 水平方向に中央配置 */
     align-items: center; /* 垂直方向に中央配置 */
-    width: 30vw;  /* 幅を30%に設定 */
-    height: auto; /* 高さは自動調整 */
+    width: 60vw;  /* 幅を30%に設定 */
+    height: 50vh; /* 高さは自動調整 */
     max-height: 80vh; /* 高さを最大80vhに設定 */
     position: relative; /* 中央配置のため */
-    margin-top: 10vh; /* 上部に少し余白を追加 */
+    margin-top: 5vh; /* 上部に少し余白を追加 */
 }
 
-.canvas { 
+.canvas {
     background-color: pink;
-    width: 100%; /* 幅を親要素に合わせる */
-    height: auto; /* 高さは自動調整 */
+    width: 70vw; /* 幅を親要素に合わせる */
+    height: 60vh; /* 高さは自動調整 */
     max-height: 100%; /* 親要素の高さに合わせて調整 */
 }
 
