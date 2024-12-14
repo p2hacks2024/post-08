@@ -17,6 +17,11 @@
             alt="bambooLeaves"
             class="bamboo-image"
             />
+        </div>
+      <div>
+        <button class="view-next-image">
+            <div>次の願いを見る</div>
+        </button>
       </div>
       <!-- トップに戻る -->
       <div class="return-top-button">
@@ -24,9 +29,7 @@
       </div>
       <Footer class="footer" ></Footer>
     </div>
-   
 </template>
-
 
 <script>
 import confetti from 'canvas-confetti';
@@ -191,7 +194,7 @@ button {
 }
 
 .return-top-button {
-    width: 150px;
+  width: 150px;
   height: 40px;
   font-size: 14px;
   background-color: #ffac30;
@@ -210,15 +213,29 @@ button {
   align-items: center; /* 垂直方向に中央揃え */
 }
 
+.view-next-image {
+  width: 150px;
+  height: 40px;
+  font-size: 14px;
+  background-color: #ffac30;
+  color: white;
+  border: none;
+  border-radius: 35px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: fixed; /* 固定位置 */
+  bottom: 34vh; /* 下部に配置 */
+  left: 50%; /* 水平中央に配置 */
+  transform: translateX(-50%); /* 中央揃え */
+  z-index: 10; /* 最前面に表示 */
+  display: flex; /* Flexboxを使用 */
+  justify-content: center; /* 水平方向に中央揃え */
+  align-items: center; /* 垂直方向に中央揃え */
+}
+
 </style>
 
 <script setup>
 import Confetti from '@/components/confetti.vue';
 
-
-//   const handleButtonClick = () => {
-//     alert("POST-8にようこそ");
-//   };
- 
 </script>
-  
