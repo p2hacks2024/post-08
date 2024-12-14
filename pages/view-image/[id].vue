@@ -1,12 +1,20 @@
 <template>
   <div class="bg">
-      <div class="min-h-screen relative">
+    <div>
+        <div class="min-h-screen relative flex flex-col items-center justify-center pb-[50vh]">
           <div class="relative z-[3]">
               <!-- <Confetti></Confetti>
               <h1>Shake Detection</h1>
               <p>Shake Strength: {{ shakeStrength }}</p> -->
-              <button class="bg-yellow-400 rounded-[35px] hover:bg-yellow-500"  @click="requestPermission"><div class="text-white">デバイスモーションの許可</div></button>
+              <button class="bg-[#ffac30] rounded-[35px]"  @click="requestPermission">
+                <div class="text-white">デバイスモーションの許可</div>
+              </button>
           </div>
+          <img
+            :src="`https://pub-0afe10dfcf4442e4a38f75c617de9147.r2.dev/canvas_image_${imageID}.png`"
+            alt="短冊の画像"
+            class="rounded-lg shadow-md bg-fuchsia-300 mt-6 justify-center z-[5]"
+          />
           <img
           src="@/assets/images/boy.png"
           alt="boy"
@@ -17,20 +25,16 @@
           alt="bambooLeaves"
           class="bamboo-image"
           />
-      </div>
-      <img
-          :src="`https://pub-0afe10dfcf4442e4a38f75c617de9147.r2.dev/canvas_image_${imageID}.png`"
-          alt="短冊の画像"
-          class="rounded-lg shadow-md bg-fuchsia-300 mt-4"
-        />
-    <div>
-      <button class="view-next-image">
-          <div>次の願いを見る</div>
-      </button>
-    </div>
-    <!-- トップに戻る -->
-    <div class="return-top-button">
-    <router-link to="/top" class=" text-white font-light">トップに戻る</router-link>
+        </div>
+        <div>
+            <button class="view-next-image" @click="handleButtunClick">
+                <div>次の願いを見る</div>
+            </button>
+        </div>
+        <!-- トップに戻る -->
+        <div class="return-top-button">
+            <router-link to="/top" class=" text-white font-light">トップに戻る</router-link>
+        </div>
     </div>
     <Footer class="footer" ></Footer>
   </div>
@@ -124,6 +128,7 @@ export default {
 
               if (this.shakeStrength > 5.0) {
                   this.launchConfetti();
+                  this.handleButtunClick();
               }
 
           this.lastX = x;
@@ -133,6 +138,7 @@ export default {
   },
   mounted() {
       this.requestPermission();
+      this.launchConfetti();
   },
   beforeDestroy() {
       window.removeEventListener('devicemotion', this.handleMotion);
@@ -212,7 +218,7 @@ position: fixed; /* 固定位置 */
 bottom: 30vh; /* 下部に配置 */
 left: 50%; /* 水平中央に配置 */
 transform: translateX(-50%); /* 中央揃え */
-z-index: 10; /* 最前面に表示 */
+z-index: 3; /* 最前面に表示 */
 display: flex; /* Flexboxを使用 */
 justify-content: center; /* 水平方向に中央揃え */
 align-items: center; /* 垂直方向に中央揃え */
@@ -232,7 +238,7 @@ position: fixed; /* 固定位置 */
 bottom: 34vh; /* 下部に配置 */
 left: 50%; /* 水平中央に配置 */
 transform: translateX(-50%); /* 中央揃え */
-z-index: 10; /* 最前面に表示 */
+z-index: 3; /* 最前面に表示 */
 display: flex; /* Flexboxを使用 */
 justify-content: center; /* 水平方向に中央揃え */
 align-items: center; /* 垂直方向に中央揃え */
@@ -243,8 +249,15 @@ align-items: center; /* 垂直方向に中央揃え */
 <script setup>
 import Confetti from '@/components/confetti.vue';
 import { useRoute } from 'vue-router';
+import { useFirestore } from '~/composables/useFirestore';
 
 const route = useRoute();
 const imageID = route.params.id;
 console.log(imageID)
+
+async function handleButtunClick() {
+  const randImageID = await useFirestore().getRandomImageId();
+  console.log(randImageID);
+  await navigateTo(`/view-image/${randImageID}`)
+}
 </script>
