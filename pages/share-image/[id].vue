@@ -24,6 +24,7 @@
 </template>
 
 <script setup>
+import { imageDefaultValues } from 'fabric/dist/src/shapes/Image';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -31,7 +32,7 @@ const imageID = route.params.id;
 console.log(imageID)
 
 const share = () => {
-  const url = encodeURIComponent(window.location.href);
+  const url = `https://post-8.pages.dev/view_image/${imageID}`;
   const text = encodeURIComponent("私はこの願い事をしました！叶うといいなぁ…");
   const imageElement = document.querySelector('img');
   const image = imageElement ? encodeURIComponent(imageElement.src) : '';
