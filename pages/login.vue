@@ -37,7 +37,7 @@ async function signin() {
         const user = result.user;
         if (user) {
           console.log(`uuid: ${user?.uid}`);
-          localStorage.setItem('uid', user?.uid)
+          localStorage.setItem('uuid', user?.uid)
           login_status.value = true;
           alert('ログインに成功しました。')
         } else {

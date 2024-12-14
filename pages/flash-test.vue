@@ -51,7 +51,7 @@ async function changeStatus() {
 }
 
 async function getUserID() {
-  userID.value = localStorage.getItem('uid')
+  userID.value = localStorage.getItem('uuid')
   console.log(userID)
 }
 
