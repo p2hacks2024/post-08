@@ -29,6 +29,7 @@
 import { onMounted, ref, reactive } from "vue";
 import * as fabric from "fabric";
 import { POST } from "/composables/api/uploadToR2";
+import { useFirestore } from "~/composables/useFirestore";
 
 export default {
     name: "DrawingCanvas",
@@ -103,18 +104,26 @@ export default {
                 });
 
                 const blob = dataURLToBlob(dataURL);
-                const file = new File([blob], "canvas_image_" + generateRandomFileName() + ".png", { type: "image/png" });
+                const randID = generateRandomFileName();
+                const file = new File([blob], "canvas_image_" + randID + ".png", { type: "image/png" });
+
+                const userID = localStorage.getItem('uuid');
 
                 try {
                     const response = await POST(file);
                     if (response.ok) {
                         const data = await response.json();
+                        useFirestore().loginUser(userID);
+                        useFirestore().setImageId(userID, randID);
                         console.log("アップロード成功:", data);
+                        alert('アップロードに成功しました。')
                     } else {
                         console.error("アップロード失敗:", await response.text());
+                        alert('アップロードに失敗しました。')
                     }
                 } catch (error) {
                     console.error("アップロードエラー:", error);
+                    alert('アップロードすることができませんでした。')
                 }
             }
         };
