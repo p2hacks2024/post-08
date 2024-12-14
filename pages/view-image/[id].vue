@@ -128,6 +128,7 @@ export default {
 
               if (this.shakeStrength > 5.0) {
                   this.launchConfetti();
+                  this.handleButtunClick();
               }
 
           this.lastX = x;
