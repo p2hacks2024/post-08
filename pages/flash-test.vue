@@ -8,7 +8,7 @@
     </p>
     <button
       class="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
-      @click="handleButtonClick"
+      @click="changeStatus"
     >
       ボタンをクリック
     </button>
@@ -26,10 +26,11 @@ import { ref } from 'vue';
 import { useFirestore } from '~/composables/useFirestore';
 
 const user_status = ref<string | undefined>(undefined);
+let userID = ref<string | null>(null);
 
-async function handleButtonClick() {
+async function getUserData() {
   try {
-    const data = await useFirestore().getUserData('testuser001');
+    const data = await useFirestore().getUserData(userID.value);
     user_status.value = data?.status;
     console.log('status: ', user_status.value)
     return user_status;
@@ -38,4 +39,25 @@ async function handleButtonClick() {
     alert('ユーザー情報の取得に失敗しました。');
   }
 }
+
+async function changeStatus() {
+  if (await useFirestore().setStatusData(userID.value) != null){
+    console.log(userID)
+    console.log('Status is changed.');
+    alert('ステータスが変更されました。');
+  } else {
+    alert('ステータスの変更に失敗しました。');
+  }
+}
+
+async function getUserID() {
+  userID.value = localStorage.getItem('uuid')
+  console.log(userID)
+}
+
+onMounted(async () => {
+  await getUserID();
+  await getUserData();
+})
+
 </script>
