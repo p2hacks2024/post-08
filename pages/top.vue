@@ -1,7 +1,6 @@
 <template>
   <div class="bg">
     <div class="min-h-screen relative">
-     
       <img
         src="@/assets/images/boy.png"
         alt="boy"
@@ -15,16 +14,14 @@
 
       <!-- 願いごとへ飛ぶのボタン -->
       <div class="flex justify-center items-center absolute top-1/3 right-0 transform -translate-x-1/2 -translate-y-1/2">
-        <router-link to="/shake_confetti" class="p-4 bg-white rounded-full shadow-md overflow-hidden hover:bg-gray-200" style="width: 30vw; height: 20vh;">
+        <button @click="handleButtunClick" class="p-4 bg-white rounded-full shadow-md overflow-hidden hover:bg-gray-200" style="width: 30vw; height: 20vh;">
           <div class="flex justify-center items-start p-2">
             <p class="text-gray-500 text-xs font-light">みんなの願いごとを見る
             </p>
           </div>
-        </router-link>
+        </button>
       </div>
     </div>
-    <return-button ></return-button>
-    <Footer class="footer" ></Footer>
   </div>
 </template>
 
@@ -54,7 +51,7 @@
 
 .bamboo-image {
   position: absolute;
-  top: 55%; 
+  top: 55%;
   left: 70%;
   transform: translate(-50%, -50%);
   z-index: 0;
@@ -66,3 +63,13 @@
 }
 
 </style>
+
+<script setup lang="ts">
+import { useFirestore } from '~/composables/useFirestore';
+
+async function handleButtunClick() {
+  const randImageID = await useFirestore().getRandomImageId();
+  console.log(randImageID);
+  await navigateTo(`/view-image/${randImageID}`)
+}
+</script>
