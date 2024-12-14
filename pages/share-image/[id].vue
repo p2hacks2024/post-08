@@ -4,7 +4,7 @@
     class="min-h-screen flex flex-col items-center justify-center pb-[20vh]"
     >
       <div class="mt-2">
-        <div class="text-amber-500 text-3xl text-center font-semibold">画像を共有しよう！</div>
+        <div class="text-white text-3xl text-center font-semibold">君の願いをXで共有しよう！</div>
         <img
           :src="`https://pub-0afe10dfcf4442e4a38f75c617de9147.r2.dev/canvas_image_${imageID}.png`"
           alt="短冊の画像"
@@ -13,7 +13,7 @@
       </div>
       <div class="mt-6">
         <button
-          class="px-6 py-2 bg-blue-500 text-white rounded-3xl shadow-md hover:bg-blue-600"
+          class="px-6 py-2 bg-blue-700 text-white rounded-3xl shadow-md hover:bg-blue-600"
           @click="share"
         >
           X(Twitter)で共有する
