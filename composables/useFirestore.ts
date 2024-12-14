@@ -95,9 +95,10 @@ export const useFirestore = () => {
 
   /** ランダムなImageIDを取得する  */
   const getRandomImageId = async () => {
-    const q = query(collection(db, "users"), where("ImageID", "!=", "")); // コレクション全体を取得するクエリを作成
+    const q = query(collection(db, "users"), where("imageID", "!=", "")); // コレクション全体を取得するクエリを作成
     const querySnapshot = await getDocs(q); //クエリの実行
     const docs = querySnapshot.docs; //ドキュメントリストの取得
+    console.log(docs)
 
     if (docs.length === 0) {
       return null; // ドキュメントが存在しない場合（これいるかわからん）
