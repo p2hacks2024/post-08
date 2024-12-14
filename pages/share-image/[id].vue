@@ -13,18 +13,26 @@
       </div>
       <div class="mt-6">
         <button
-          class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
+          class="px-6 py-2 bg-blue-500 text-white rounded-3xl shadow-md hover:bg-blue-600"
           @click="share"
         >
           X(Twitter)で共有する
         </button>
+      </div>
+      <div class="mt-6">
+        <RouterLink
+          to="/top"
+          class="px-6 py-2 bg-amber-400 text-white rounded-3xl shadow-md hover:bg-amber-500"
+        >
+          トップページに戻る
+        </RouterLink>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { imageDefaultValues } from 'fabric/dist/src/shapes/Image';
+//import { imageDefaultValues } from 'fabric/dist/src/shapes/Image';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -32,7 +40,7 @@ const imageID = route.params.id;
 console.log(imageID)
 
 const share = () => {
-  const url = `https://post-8.pages.dev/view_image/${imageID}`;
+  const url = encodeURIComponent(window.location.href);
   const text = encodeURIComponent("私はこの願い事をしました！叶うといいなぁ…");
   const imageElement = document.querySelector('img');
   const image = imageElement ? encodeURIComponent(imageElement.src) : '';
