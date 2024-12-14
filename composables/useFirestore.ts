@@ -50,7 +50,7 @@ export const useFirestore = () => {
   };
 
   /** statusをFlashに書き換え */
-  const setStatusData = async (ID: string) => {
+  const setStatusData = async (ID: string | null) => {
     const doc = await getUserDoc(ID);
     if (!doc) {
       return null;

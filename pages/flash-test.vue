@@ -26,10 +26,11 @@ import { ref } from 'vue';
 import { useFirestore } from '~/composables/useFirestore';
 
 const user_status = ref<string | undefined>(undefined);
+let userID = ref<string | null>(null);
 
 async function getUserData() {
     try {
-    const data = await useFirestore().getUserData('testuser001');
+    const data = await useFirestore().getUserData(userID.value);
     user_status.value = data?.status;
     console.log('status: ', user_status.value)
     return user_status;
@@ -40,16 +41,22 @@ async function getUserData() {
 }
 
 async function changeStatus() {
-  try {
-    await useFirestore().setStatusData('testuser001');
+  if (await useFirestore().setStatusData(userID.value) != null){
+    console.log(userID)
     console.log('Status is changed.');
-  } catch(e) {
-    console.error(e);
-    alert('ステータスの変更に失敗しました。')
+    alert('ステータスが変更されました。');
+  } else {
+    alert('ステータスの変更に失敗しました。');
   }
 }
 
+async function getUserID() {
+  userID.value = localStorage.getItem('uid')
+  console.log(userID)
+}
+
 onMounted(async () => {
+  await getUserID();
   await getUserData();
 })
 
