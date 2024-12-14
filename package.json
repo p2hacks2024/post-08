@@ -12,8 +12,8 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@css-inline/css-inline": "^0.14.3",
     "@aws-sdk/client-s3": "^3.709.0",
+    "@css-inline/css-inline": "^0.14.3",
     "@types/fabric": "^5.3.9",
     "buffer": "^6.0.3",
     "canvas-confetti": "^1.9.3",
@@ -28,6 +28,7 @@
   "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241205.0",
+    "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "h3": "^1.13.0",
     "nitro-cloudflare-dev": "^0.2.1",
