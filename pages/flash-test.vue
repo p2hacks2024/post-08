@@ -32,6 +32,7 @@ async function getUserData() {
   try {
     const data = await useFirestore().getUserData(userID.value);
     user_status.value = data?.status;
+    console.log(data?.imageID)
     console.log('status: ', user_status.value)
     return user_status;
   } catch(e){
@@ -41,7 +42,8 @@ async function getUserData() {
 }
 
 async function changeStatus() {
-  if (await useFirestore().setStatusData(userID.value) != null){
+  let data = await useFirestore().setStatusData(userID.value);
+  if(data != null){
     console.log(userID)
     console.log('Status is changed.');
     alert('ステータスが変更されました。');
