@@ -1,41 +1,45 @@
 <template>
-  <v-app>
-    <v-main>
-      <v-container fill-height>
-        <v-card width="400px" class="mx-auto mt-5">
-          <v-card-actions>
-            <v-col>
-                <v-btn
-                @click="signin"
-                block
-                class="text-transform py-4 my-2"
-                color="primary"
-                >
-                Twitterでログイン
-                </v-btn>
-            </v-col>
-          </v-card-actions>
-        </v-card>
-      </v-container>
-    </v-main>
-  </v-app>
+  <div
+    class="min-h-screen flex flex-col items-center justify-center"
+  >
+    <h1 class="text-4xl font-extrabold text-blue-600">ログインページ</h1>
+    <p class="mt-4 text-gray-700 text-lg m-4">
+      X(Twitter)アカウントでログインすると、このアプリがもっと楽しくなります！
+    </p>
+    <div v-if="login_status===true" class="text-lg text-gray-700 mt-2">
+      ログイン中です
+    </div>
+    <div v-else class="text-lg text-gray-700">
+      <button
+        class="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
+        @click="signin"
+      >
+        X(Twitter)でログイン
+      </button>
+    </div>
+  </div>
 </template>
 
-<script>
+<script setup lang='ts'>
 // import firebaseApp from '@/src/main.js'
 import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
+import { useFirestore } from "~/composables/useFirestore";
+import { ref } from "vue";
 
-export default {
-  methods: {
-  signin() {
-    const provider = new TwitterAuthProvider();
-    const auth = getAuth();
+let login_status = ref<boolean>(false);
+
+async function signin() {
+  const provider = new TwitterAuthProvider();
+  const auth = getAuth();
+
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
         if (user) {
-          console.log(user?.uid);
+          console.log(`uuid: ${user?.uid}`);
           localStorage.setItem('uid', user?.uid)
+          login_status.value = true;
+          alert('ログインに成功しました。')
         } else {
           alert('ログインに失敗しました。');
         }
@@ -44,34 +48,16 @@ export default {
         // Handle Errors here.
         console.error(error);
       });
-  }
 }
+
+async function checkLoginStatus() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  console.log(user);
 }
+
+onMounted(async () => {
+  await checkLoginStatus();
+})
+
 </script>
-
-
-<style scoped>
-.login {
-    text-align: center;
-    margin-top: 50px;
-}
-form {
-    display: inline-block;
-    text-align: left;
-}
-div {
-    margin-bottom: 10px;
-}
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-}
-button {
-    padding: 10px 20px;
-}
-</style>
