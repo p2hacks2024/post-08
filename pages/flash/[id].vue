@@ -9,7 +9,7 @@
         <img
           :src="`https://pub-0afe10dfcf4442e4a38f75c617de9147.r2.dev/canvas_image_${imageID}.png`"
           alt="短冊の画像"
-          class="rounded-lg shadow-md bg-white mt-2"
+          class="rounded-lg shadow-md bg-fuchsia-300 mt-2"
         />
       </div>
       <div v-if="user_status == 'none'" class="flex flex-row mt-4 text-white text-lg">
