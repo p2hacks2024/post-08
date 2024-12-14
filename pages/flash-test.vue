@@ -29,15 +29,15 @@ const user_status = ref<string | undefined>(undefined);
 let userID = ref<string | null>(null);
 
 async function getUserData() {
-    try {
+  try {
     const data = await useFirestore().getUserData(userID.value);
     user_status.value = data?.status;
     console.log('status: ', user_status.value)
     return user_status;
-    } catch(e){
+  } catch(e){
     console.error(e);
     alert('ユーザー情報の取得に失敗しました。');
-    }
+  }
 }
 
 async function changeStatus() {
