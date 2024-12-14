@@ -117,6 +117,7 @@ export default {
                         useFirestore().setImageId(userID, randID);
                         console.log("アップロード成功:", data);
                         alert('アップロードに成功しました。')
+                        await navigateTo(`/share-image/${randID}`)
                     } else {
                         console.error("アップロード失敗:", await response.text());
                         alert('アップロードに失敗しました。')

@@ -57,6 +57,7 @@ export const useFirestore = () => {
     }
 
     await updateDoc(doc.ref, { status: "flash" });
+    return true;
   };
 
   /** ユーザーに画像を紐づける */

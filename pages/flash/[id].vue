@@ -2,15 +2,19 @@
   <div
     class="min-h-screen flex flex-col items-center justify-center"
   >
-    <h1 class="text-4xl font-extrabold text-blue-600">Flashページへようこそ</h1>
-    <p class="mt-4 text-gray-700 text-lg">
-      このページは工事中です。
-    </p>
+    <h1 class="text-4xl font-extrabold text-blue-600">あなたの願いを星にしよう！</h1>
+    <div class="mt-2">
+      <img
+        :src="`https://pub-0afe10dfcf4442e4a38f75c617de9147.r2.dev/canvas_image_${imageID}.png`"
+        alt="短冊の画像"
+        class="rounded-lg shadow-md"
+      />
+    </div>
     <button
       class="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
       @click="changeStatus"
     >
-      ボタンをクリック
+      星にする
     </button>
     <div v-if="user_status" class="flex flex-row mt-4 text-gray-700 text-lg">
       <p class="mr-2">現在のステータスは:</p>
@@ -24,9 +28,14 @@
 <script setup lang='ts'>
 import { ref } from 'vue';
 import { useFirestore } from '~/composables/useFirestore';
+import { useRoute } from 'vue-router';
 
 const user_status = ref<string | undefined>(undefined);
 let userID = ref<string | null>(null);
+
+const route = useRoute();
+const imageID = route.params.id;
+console.log(imageID)
 
 async function getUserData() {
   try {
@@ -46,9 +55,10 @@ async function changeStatus() {
   if(data != null){
     console.log(userID)
     console.log('Status is changed.');
-    alert('ステータスが変更されました。');
+    alert('願いが星になりました！');
+    await navigateTo('/top');
   } else {
-    alert('ステータスの変更に失敗しました。');
+    alert('星になる過程でエラーが起きました。');
   }
 }
 
