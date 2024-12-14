@@ -3,11 +3,20 @@
   <div
     class="min-h-screen flex flex-col items-center justify-center"
   >
+    <h1 class="text-7xl text-white font-black m-10">星閃</h1>
+    <div class="text-amber-400 text-lg">ログインしていない方はこちら</div>
     <button
-      class="mt-6 px-6 py-2 bg-orange-400 text-white rounded-full shadow-md hover:bg-yellow-400"
+      class="mt-2 mb-6 px-6 py-2 bg-orange-400 text-white rounded-full shadow-md hover:bg-yellow-400"
       @click="signin"
     >
       Xのアカウントを連携して始める
+    </button>
+    <div class="text-amber-400 text-lg">ログイン済みの方はこちら</div>
+    <button
+      class="mt-2 px-6 py-2 bg-orange-400 text-white rounded-full shadow-md hover:bg-yellow-400"
+      @click="handleButtonClick"
+    >
+      トップページに移動する
     </button>
   </div>
 </div>
@@ -26,9 +35,8 @@
 
 <script setup lang='ts'>
 // import firebaseApp from '@/src/main.js'
-import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
-import { useFirestore } from "~/composables/useFirestore";
-import { ref } from "vue";
+import { getAuth, signInWithRedirect, getRedirectResult, TwitterAuthProvider } from "firebase/auth";
+import { useRouter } from "vue-router";
 
 const routes = [
   {
@@ -39,31 +47,20 @@ const routes = [
   // その他のルート
 ];
 
-let login_status = ref<boolean>(false);
-
 async function signin() {
   const provider = new TwitterAuthProvider();
-
-const router = useRouter(); // routerインスタンスを取得
   const auth = getAuth();
 
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        if (user) {
-          console.log(`uuid: ${user?.uid}`);
-          localStorage.setItem('uuid', user?.uid)
-          login_status.value = true;
-          alert('ログインに成功しました。')
-          router.push({ name: 'top' }); // TOPページにリダイレクト
-        } else {
-          alert('ログインに失敗しました。');
-        }
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        console.error(error);
-      });
+  try {
+    // Twitterでのリダイレクトログインを開始
+    await signInWithRedirect(auth, provider);
+  } catch (error) {
+    console.error("リダイレクトログインエラー:", error);
+  }
+}
+
+async function handleButtonClick() {
+  await navigateTo('/top')
 }
 
 </script>

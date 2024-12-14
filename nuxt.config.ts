@@ -1,7 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-
-
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
 
@@ -44,5 +42,21 @@ export default defineNuxtConfig({
 
   ssr: true,
 
-  plugins: ['~/plugins/firebase.client']
+  plugins: ['~/plugins/firebase.client'],
+
+  vite: {
+    server: {
+      proxy: {
+        '/__/auth/': {
+          target: 'https://p2hacks2024-post-8.firebaseapp.com', // 転送先のURL, ユーザー認証をリダイレクトに変更したため必要
+          changeOrigin: true, // CORSヘッダーをターゲットのものに変更
+          rewrite: (path) => path.replace(/^\/__\/auth\//, '/__/auth/'), // パスの調整（この場合、実質不要）
+        },
+      },
+    },
+  },
+
+  app: {
+    baseURL: '/'
+  }
 })
