@@ -23,7 +23,6 @@
 <script setup lang='ts'>
 // import firebaseApp from '@/src/main.js'
 import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
-import { useFirestore } from "~/composables/useFirestore";
 import { ref } from "vue";
 
 let login_status = ref<boolean>(false);
