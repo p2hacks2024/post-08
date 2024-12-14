@@ -1,12 +1,14 @@
 <template>
     <div class="bg">
         <div class="min-h-screen relative"> 
-            <div class="relative z-[3]">
+            <div class="relative z-0">
                 <!-- <Confetti></Confetti>
                 <h1>Shake Detection</h1>
                 <p>Shake Strength: {{ shakeStrength }}</p> -->
-                <button class="bg-yellow-400 rounded-[35px] hover:bg-yellow-500"  @click="requestPermission"><div class="text-white">デバイスモーションの許可</div></button>
-            </div>
+     
+                <button class="bg-[#ffac30] rounded-[35px] hover:bg-yellow-500"  @click="requestPermission"><div class="text-white">デバイスモーションの許可</div></button>
+            
+
             <img
             src="@/assets/images/boy.png"
             alt="boy"
@@ -17,6 +19,7 @@
             alt="bambooLeaves"
             class="bamboo-image"
             />
+        </div>
         </div>
       <div>
         <button class="view-next-image">

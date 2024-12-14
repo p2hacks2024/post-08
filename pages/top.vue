@@ -1,6 +1,6 @@
 <template>
   <div class="bg">
-    <div class="min-h-screen relative">
+    <div class="min-h-screen relative z-0">
       <img
         src="@/assets/images/boy.png"
         alt="boy"
@@ -14,7 +14,7 @@
 
       <!-- 願いごとへ飛ぶのボタン -->
       <div class="flex justify-center items-center absolute top-1/3 right-0 transform -translate-x-1/2 -translate-y-1/2">
-        <button @click="handleButtunClick" class="p-4 bg-white rounded-full shadow-md overflow-hidden hover:bg-gray-200" style="width: 30vw; height: 20vh;">
+        <button @click="handleButtunClick" class="p-4 bg-yellow-100 rounded-full shadow-md  overflow-hidden hover:bg-yellow-300" style="width: 30vw; height: 20vh;">
           <div class="flex justify-center items-start p-2">
             <p class="text-gray-500 text-xs font-light">みんなの願いごとを見る
             </p>
