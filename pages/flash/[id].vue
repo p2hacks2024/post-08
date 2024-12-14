@@ -13,9 +13,7 @@
         />
       </div>
       <div v-if="user_status == 'none'" class="flex flex-row mt-4 text-white text-lg">
-        <p class="mr-2">現在のステータスは:</p>
-        <p>{{ user_status }}</p>
-        <p class="ml-2">です</p>
+        <p>この願いはまだ星になっていません。</p>
         <button
           class="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
           @click="changeStatus"
@@ -24,11 +22,17 @@
         </button>
       </div>
       <div v-else-if="user_status == 'flash'" class="flex flex-row mt-4 text-white text-lg">
-        <p class="mr-2">現在のステータスは:</p>
-        <p>{{ user_status }}</p>
-        <p class="ml-2">です</p>
+        <p>この願いはもう星になっています。</p>
       </div>
       <p v-else class="mt-4 text-white text-lg">ステータスが読み取れませんでした。</p>
+      <div class="mt-6">
+        <RouterLink
+          to="/top"
+          class="px-6 py-2 bg-amber-400 text-white rounded-3xl shadow-md hover:bg-amber-500"
+        >
+          トップページに戻る
+        </RouterLink>
+      </div>
     </div>
   </div>
 </template>
@@ -60,7 +64,7 @@ async function getUserData() {
 async function changeStatus() {
   let data = await useFirestore().setStatusData(userID.value);
   if(data != null){
-    console.log(userID)
+    //console.log(userID.value)
     console.log('Status is changed.');
     alert('願いが星になりました！');
     await navigateTo('/top');
@@ -71,7 +75,7 @@ async function changeStatus() {
 
 async function getUserID() {
   userID.value = localStorage.getItem('uuid')
-  console.log(userID)
+  console.log(userID.value)
 }
 
 onMounted(async () => {
