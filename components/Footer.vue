@@ -12,7 +12,7 @@
         style="width: 40vw; height: 20vh;"
       >
         <div class="flex justify-center items-start">
-          <p class="text-gray-500 text-sm font-bold">願い事を見返す</p>
+          <p class="text-gray-500 text-sm font-light">願い事を見返す</p>
         </div>
         <div class="flex justify-center items-center h-full">
           <img
@@ -30,7 +30,7 @@
         style="width: 40vw; height: 20vh;"
       >
         <div class="flex justify-center items-start">
-          <p class="text-gray-500 text-sm font-bold">願い事を書く</p>
+          <p class="text-gray-500 text-sm font-light">願い事を書く</p>
         </div>
         <div class="flex justify-center items-center h-full">
           <img
@@ -52,5 +52,5 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 
 // フッターを非表示にしたいページを条件として指定
-const isHiddenPage = computed(() => route.path === '/'); // '/index' ページで非表示
+const isHiddenPage = computed(() => route.path === '/' || route.path === '/login');
 </script>

@@ -1,5 +1,6 @@
 <template>
-    <div class="background-layer"></div>
+   <div class="bg">
+    <div class="min-h-screen relative"> 
     <div class="content-layer">
         <!-- 上部のボタン -->
         <div class="controls-top">
@@ -10,14 +11,15 @@
         <div class="main-content">
             <!-- キャンバス -->
             <div class="canvas-wrapper">
-                <canvas ref="canvasEl" class="canvas" width="600" height="500" />
-            </div>
-            <!-- サイドのボタン -->
-            <div class="controls-side">
+                <canvas ref="canvasEl" class="canvas"/>
+                <div class="controls-side">
                 <button class="control-button-side" @click="toggleDrawingMode">
-                    {{ state.isDrawingMode ? "描画モード解除あちゃああ" : "描画モード開始" }}
+                    {{ state.isDrawingMode ? "描画モード解除" : "描画モード開始" }}
                 </button>
                 <button class="control-button-side" @click="clearCanvas">キャンバスをクリア</button>
+                </div>
+            </div>         
+                </div>
             </div>
         </div>
     </div>
@@ -157,54 +159,54 @@ body {
 }
 
 /* 背景レイヤー */
-.background-layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-image: url("@/assets/images/bg-hoshisen.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
+.bg {
+  background-image: url("@/assets/images/bg-hoshisen.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100%;
 }
+
 
 /* コンテンツレイヤー */
 .content-layer {
+
     position: relative;
+    justify-content: center;  
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 24px;
+    margin-top: 10px;
 }
 
-/* キャンバスとサイドボタンの配置 */
-.main-content {
-    display: flex; /* 横並びに配置 */
-    align-items: center;
-    justify-content: center;
-    gap: 20px; /* キャンバスとボタンの間隔 */
-    margin: 24px 0; /* 上下の余白 */
-    margin-left: 180px; /* 右にずらす */
-}
-
-/* キャンバスのスタイル */
 .canvas-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* 水平方向に中央配置 */
+    align-items: center; /* 垂直方向に中央配置 */
+    width: 30vw;  /* 幅を30%に設定 */
+    height: auto; /* 高さは自動調整 */
+    max-height: 80vh; /* 高さを最大80vhに設定 */
+    position: relative; /* 中央配置のため */
+    margin-top: 10vh; /* 上部に少し余白を追加 */
 }
 
-.canvas {
-    border: 2px solid blue;
-    background-color: white;
+.canvas { 
+    background-color: pink;
+    width: 100%; /* 幅を親要素に合わせる */
+    height: auto; /* 高さは自動調整 */
+    max-height: 100%; /* 親要素の高さに合わせて調整 */
 }
+
 
 /* 上部のボタン */
 .controls-top {
     display: flex;
-    gap: 10px;
+    flex-direction: rowz; /* ボタンを縦に並べる */
+    position: fixed; /* ビューポートに固定 */
+    bottom: 30vh; /* ビューポートの高さの45%に配置 */
+    left: 50%; /* 水平方向の中央に配置 */
+    transform: translateX(-50%); /* 中央揃え調整 */
+    gap: 10px; /* ボタン間の間隔 */
 }
 
 /* 上部ボタンのスタイル */
@@ -214,7 +216,7 @@ body {
     background-color: #4caf50;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 35px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -226,8 +228,14 @@ body {
 /* サイドボタンのスタイル */
 .controls-side {
     display: flex;
-    flex-direction: column; /* ボタンを縦に並べる */
+    flex-direction: row; /* ボタンを横に並べる */
     gap: 10px;
+    position: fixed; /* ビューポートに固定 */
+    bottom: 40vh; /* フッターからの距離 */
+    left: 50%; /* 水平方向の中央に配置 */
+    transform: translateX(-50%); /* 中央揃え調整 */
+    margin: 0; /* マージンをリセット */
+    z-index: 100; /* 他の要素より前面に表示 */
 }
 
 .control-button-side {
@@ -237,7 +245,7 @@ body {
     background-color: #2196f3;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 35px;
     cursor: pointer;
     text-align: center;
     transition: background-color 0.3s;
