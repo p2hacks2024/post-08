@@ -1,6 +1,6 @@
 <template>
   <div class="bg">
-    <div class="min-h-screen relative"> 
+    <div class="min-h-screen relative">
      
       <img
         src="@/assets/images/boy.png"
@@ -64,6 +64,5 @@
 .footer {
   z-index: 2; /* 画像よりも上に表示 */
 }
-
 
 </style>
