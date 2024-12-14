@@ -4,14 +4,14 @@
     <div class="content-layer">
         <!-- 上部のボタン -->
         <div class="controls-top">
-            <button class="control-button-top" @click="saveCanvasAsImage">画像をダウンロード</button>
-            <button class="control-button-top" @click="uploadCanvasToR2">画像をアップロード</button>
+            <button class="control-button-top" @click="saveCanvasAsImage">画像を保存</button>
+            <button class="control-button-top" @click="uploadCanvasToR2">笹に飾る</button>
         </div>
         <!-- メインコンテンツ -->
         <div class="main-content">
             <!-- キャンバス -->
             <div class="canvas-wrapper">
-                <canvas ref="canvasEl" class="canvas"/>
+                <canvas ref="canvasEl" class="canvas"></canvas>
                 <div class="controls-side">
                 <button class="control-button-side" @click="toggleDrawingMode">
                     {{ state.isDrawingMode ? "書くのをやめる" : "書き始める" }}
@@ -218,9 +218,10 @@ body {
 
 /* 上部ボタンのスタイル */
 .control-button-top {
-    padding: 8px 16px;
+    width: 150px; /* 固定幅 */
+    height: 40px; /* 固定高さ */
     font-size: 14px;
-    background-color: #4caf50;
+    background-color: #ffac30;
     color: white;
     border: none;
     border-radius: 35px;
@@ -229,7 +230,7 @@ body {
 }
 
 .control-button-top:hover {
-    background-color: #45a049;
+    background-color: #d58000;
 }
 
 /* サイドボタンのスタイル */
@@ -249,7 +250,7 @@ body {
     width: 150px; /* 固定幅 */
     height: 40px; /* 固定高さ */
     font-size: 14px;
-    background-color: #2196f3;
+    background-color: #fb99b3;
     color: white;
     border: none;
     border-radius: 35px;
@@ -259,6 +260,6 @@ body {
 }
 
 .control-button-side:hover {
-    background-color: #1976d2;
+    background-color: #ec7da2;
 }
 </style>
