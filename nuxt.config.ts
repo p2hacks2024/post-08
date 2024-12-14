@@ -9,7 +9,6 @@ export default defineNuxtConfig({
 
   modules: ["nitro-cloudflare-dev", '@nuxtjs/tailwindcss','nuxt-og-image'],
 
-
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config',
@@ -58,5 +57,6 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: '/'
-  }
+  },
+
 })
