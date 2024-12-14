@@ -18,7 +18,10 @@
             class="bamboo-image"
             />
       </div>
-      <returnTopButton></returnTopButton>
+      <!-- トップに戻る -->
+      <div class="return-top-button">
+      <router-link to="/top" class=" text-white font-light">トップに戻る</router-link>
+      </div>
       <Footer class="footer" ></Footer>
     </div>
    
@@ -187,6 +190,25 @@ button {
   z-index: 2; /* 画像よりも上に表示 */
 }
 
+.return-top-button {
+    width: 150px;
+  height: 40px;
+  font-size: 14px;
+  background-color: #ffac30;
+  color: white;
+  border: none;
+  border-radius: 35px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: fixed; /* 固定位置 */
+  bottom: 30vh; /* 下部に配置 */
+  left: 50%; /* 水平中央に配置 */
+  transform: translateX(-50%); /* 中央揃え */
+  z-index: 10; /* 最前面に表示 */
+  display: flex; /* Flexboxを使用 */
+  justify-content: center; /* 水平方向に中央揃え */
+  align-items: center; /* 垂直方向に中央揃え */
+}
 
 </style>
 
