@@ -21,23 +21,23 @@ Webページにアクセスし、Xアカウントでログインしてから利�
 ## 開発体制  
 
 役割分担  
-- あいと: ビジュアル担当、マクドナルド函館美原の開店準備
-- あやね: UI/UXデザイン、画像素材、DBクエリ
-- そうのすけ: お絵かきページ、Cloudflare R2へのアップロード
-- しおん: Xへの共有ページ、Xアカウントでのログイン
-- はるや: システム設計、縁の下の力持ち  
+- あいと [aito15372](https://github.com/aito15372) : ビジュアル担当、マクドナルド函館美原の開店準備
+- あやね [ayanentity](https://github.com/ayanentity): UI/UXデザイン、画像素材、DBクエリ
+- そうのすけ [sounosuke110](https://github.com/sounosuke110): お絵かきページ、Cloudflare R2へのアップロード
+- しおん [SakamotoShion](https://github.com/SakamotoShion): Xへの共有ページ、Xアカウントでのログイン
+- はるや [kiguruu](https://github.com/kiguruu): システム設計、縁の下の力持ち  
 
 開発における工夫した点  
 全員ハッカソン参加は初めてです！  
 Vue + Nuxt.js, Firestore, Cloudflare R2も使うのは初めてでしたが、頑張りました！  
 
-## 開発技術 
+## 開発技術  
 
 利用したプログラミング言語  
 TypeScript, Vue  
 
 利用したフレームワーク・ライブラリ  
-Vue.js, Nuxt.js  
+Vue.js, Nuxt.js, TailwindCSS  
 
 その他開発に使用したツール・サービス  
 DB: Cloud Firestore  
